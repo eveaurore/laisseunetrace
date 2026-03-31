@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Correspondance — Laisse une trace</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=author@400,600&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Chaumont Script';
+      src: url('chaumont-script.woff2') format('woff2'),
+           url('chaumont-script.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font-display: 'Chaumont Script', Georgia, serif;
+      --font-body: 'Author', sans-serif;
+
+      --home-bg: #fbe8df;
+      --home-text: #6E031F;
+      --home-border: rgba(110,3,31,0.2);
+      --home-card: rgba(255,255,255,0.2);
+      --home-card-hover: rgba(255,255,255,0.35);
+
+      --voice-bg: #F288B7;
+      --voice-text: #6E031F;
+      --voice-border: rgba(110,3,31,0.2);
+      --voice-card: rgba(255,255,255,0.25);
+
+      --photo-bg: #D4DD75;
+      --photo-text: #5158A6;
+      --photo-border: rgba(81,88,166,0.2);
+      --photo-card: rgba(255,255,255,0.3);
+
+      --success-bg: #fbe8df;
+      --success-text: #6E031F;
+
+      --radius: 6px;
+      --radius-lg: 12px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.6;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 1.25rem 2rem;
+    }
+
+    .screen { display: none; flex-direction: column; flex: 1; animation: fadeIn 0.35s ease; }
+    .screen.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* HOME */
+    body.home { background: var(--home-bg); color: var(--home-text); }
+
+    .site-header {
+      padding: 3rem 0 1.75rem;
+      text-align: center;
+      border-bottom: 0.5px solid var(--home-border);
+      margin-bottom: 2rem;
+    }
+
+    .postmark {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--home-text);
+      border: 0.5px solid var(--home-border);
+      border-radius: 50px;
+      padding: 4px 14px;
+      margin-bottom: 1.25rem;
+      opacity: 0.7;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: 52px;
+      font-weight: normal;
+      line-height: 1.1;
+      color: var(--home-text);
+      margin-bottom: 0.6rem;
+    }
+
+    .tagline {
+      font-size: 13px;
+      color: var(--home-text);
+      opacity: 0.7;
+      font-weight: 400;
+    }
+
+    .home-intro {
+      margin-bottom: 1.75rem;
+    }
+    .home-intro p {
+      font-size: 14px;
+      color: var(--home-text);
+      opacity: 0.8;
+      line-height: 1.75;
+    }
+
+    .option-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--home-card);
+      border: 0.5px solid var(--home-border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.25rem;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .option-btn::after {
+      content: '→';
+      position: absolute;
+      right: 1.25rem;
+      font-size: 14px;
+      color: var(--home-text);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .option-btn:hover { background: var(--home-card-hover); }
+    .option-btn:hover::after { transform: translateX(4px); opacity: 1; }
+
+    .opt-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+      background: rgba(255,255,255,0.35);
+    }
+
+    .opt-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--home-text);
+    }
+    .opt-desc {
+      font-size: 12px;
+      color: var(--home-text);
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    /* INNER SCREENS */
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0;
+      margin-bottom: 1.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: var(--font-body);
+      font-weight: 600;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .back-btn:hover { opacity: 1; }
+
+    .screen-title {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: normal;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .screen-sub {
+      font-size: 13px;
+      opacity: 0.75;
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+      font-weight: 400;
+    }
+
+    /* VOICE */
+    body.voice { background: var(--voice-bg); color: var(--voice-text); }
+    body.voice .back-btn { color: var(--voice-text); }
+    body.voice .screen-title { color: var(--voice-text); }
+    body.voice .screen-sub { color: var(--voice-text); }
+
+    .rec-zone {
+      background: var(--voice-card);
+      border: 0.5px solid var(--voice-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1rem;
+      text-align: center;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      min-height: 180px;
+      justify-content: center;
+    }
+
+    .rec-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--voice-text);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: transform 0.15s;
+      flex-shrink: 0;
+    }
+    .rec-circle:hover { transform: scale(1.06); }
+    .rec-circle.recording {
+      background: #8b1a1a;
+      animation: breathe 1.2s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.09); }
+    }
+
+    .rec-label {
+      font-size: 11px;
+      color: var(--voice-text);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      opacity: 0.65;
+    }
+
+    .rec-timer {
+      font-family: var(--font-display);
+      font-size: 38px;
+      color: var(--voice-text);
+      font-variant-numeric: tabular-nums;
+      min-height: 44px;
+      line-height: 1;
+    }
+
+    audio {
+      width: 100%;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+    }
+
+    /* PHOTO */
+    body.photo { background: var(--photo-bg); color: var(--photo-text); }
+    body.photo .back-btn { color: var(--photo-text); }
+    body.photo .screen-title { color: var(--photo-text); }
+    body.photo .screen-sub { color: var(--photo-text); }
+
+    .photo-zone {
+      background: var(--photo-card);
+      border: 0.5px dashed var(--photo-border);
+      border-radius: var(--radius-lg);
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .photo-zone:hover { background: rgba(255,255,255,0.45); }
+    .photo-zone img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; border-radius: var(--radius-lg); }
+    .photo-hint { text-align: center; font-size: 13px; color: var(--photo-text); z-index: 1; padding: 1.5rem; line-height: 1.7; opacity: 0.8; }
+    .photo-hint .big { font-size: 32px; display: block; margin-bottom: 10px; opacity: 1; }
+    input[type=file] { display: none; }
+
+    /* SEND BUTTON */
+    .send-btn {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      font-size: 11px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .send-btn:hover:not(:disabled) { opacity: 0.85; transform: translateY(-1px); }
+    .send-btn:active:not(:disabled) { transform: translateY(0); }
+    .send-btn:disabled { opacity: 0.3; cursor: default; }
+
+    body.voice .send-btn { background: var(--voice-text); color: var(--voice-bg); }
+    body.photo .send-btn { background: var(--photo-text); color: var(--photo-bg); }
+
+    /* SUCCESS */
+    body.success-state { background: var(--success-bg); color: var(--success-text); }
+
+    #screen-success {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 0;
+    }
+    .success-mark {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: 0.5px solid rgba(110,3,31,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin: 0 auto 1.5rem;
+    }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 46px;
+      font-weight: normal;
+      line-height: 1.1;
+      color: var(--success-text);
+      margin-bottom: 0.75rem;
+    }
+    .success-body {
+      font-size: 13px;
+      color: var(--success-text);
+      opacity: 0.75;
+      line-height: 1.8;
+      max-width: 300px;
+      margin: 0 auto 2rem;
+    }
+    .ghost-btn {
+      background: rgba(255,255,255,0.25);
+      border: 0.5px solid rgba(110,3,31,0.25);
+      border-radius: 50px;
+      padding: 0.7rem 1.75rem;
+      font-size: 11px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--success-text);
+      transition: background 0.2s;
+    }
+    .ghost-btn:hover { background: rgba(255,255,255,0.4); }
+
+    /* FOOTER */
+    .site-footer {
+      padding: 1.5rem 0 0;
+      text-align: center;
+      margin-top: auto;
+    }
+    .site-footer p {
+      font-size: 11px;
+      opacity: 0.45;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body class="home">
+<div class="page">
+
+  <!-- HOME -->
+  <div id="screen-home" class="screen active">
+    <header class="site-header">
+      <div class="postmark">Correspondance</div>
+      <h1>Laisse une trace</h1>
+      <p class="tagline">À un·e proche, ou à un·e inconnu·e.</p>
+    </header>
+
+    <div class="home-intro">
+      <p>Cette carte postale virtuelle t'invite à tisser des liens et correspondre. Choisis la forme que prendra ton message. Il sera conservé et consultable.</p>
+    </div>
+
+    <div class="option-list">
+      <button class="option-btn" onclick="show('screen-voice', 'voice')">
+        <div class="opt-icon">🎙</div>
+        <div>
+          <div class="opt-label">Call me, maybe !</div>
+          <div class="opt-desc">Enregistre ta voix</div>
+        </div>
+      </button>
+      <button class="option-btn" onclick="show('screen-photo', 'photo')">
+        <div class="opt-icon">📷</div>
+        <div>
+          <div class="opt-label">Write to me !</div>
+          <div class="opt-desc">Numérise ta lettre manuscrite</div>
+        </div>
+      </button>
+    </div>
+
+    <footer class="site-footer">
+      <p>Laisse une trace — Projet de Correspondance &amp; Mémoire par Eve Randreth</p>
+    </footer>
+  </div>
+
+  <!-- VOICE -->
+  <div id="screen-voice" class="screen">
+    <div style="padding-top: 2rem;">
+      <button class="back-btn" onclick="show('screen-home', 'home')">← Retour</button>
+      <div class="screen-title">Note vocale</div>
+      <p class="screen-sub">Appuie sur le bouton pour commencer à enregistrer. Réappuie pour terminer.</p>
+      <div class="rec-zone">
+        <div class="rec-timer" id="timer"></div>
+        <button class="rec-circle" id="rec-btn" onclick="toggleRec()">🎙</button>
+        <div class="rec-label" id="rec-status">Appuie pour commencer</div>
+      </div>
+      <div id="audio-preview" style="display:none; margin-bottom:1rem;">
+        <audio id="audio-player" controls></audio>
+      </div>
+      <button class="send-btn" id="send-voice-btn" disabled onclick="sendSuccess()">Envoyer la note vocale</button>
+    </div>
+  </div>
+
+  <!-- PHOTO -->
+  <div id="screen-photo" class="screen">
+    <div style="padding-top: 2rem;">
+      <button class="back-btn" onclick="show('screen-home', 'home')">← Retour</button>
+      <div class="screen-title">Ta carte manuscrite</div>
+      <p class="screen-sub">Prends une photo de ta carte pour la numériser et l'intégrer à l'installation.</p>
+      <div class="photo-zone" onclick="document.getElementById('file-input').click()">
+        <div class="photo-hint" id="photo-hint">
+          <span class="big">📷</span>
+          Appuie pour prendre une photo<br>ou importer depuis ta galerie
+        </div>
+        <img id="photo-preview" style="display:none" alt="Aperçu de ta carte" />
+      </div>
+      <input type="file" id="file-input" accept="image/*" capture="environment" onchange="handlePhoto(this)">
+      <button class="send-btn" id="send-photo-btn" disabled onclick="sendSuccess()">Envoyer la photo</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="screen-success" class="screen">
+    <div class="success-mark">✓</div>
+    <div class="success-title">Message reçu</div>
+    <p class="success-body">Ta correspondance a été enregistrée et fait maintenant partie de l'installation.<br><br>Merci d'avoir laissé une trace.</p>
+    <button class="ghost-btn" onclick="show('screen-home', 'home')">Ajouter un autre message</button>
+  </div>
+
+</div>
+
+<script>
+  function show(id, theme) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.body.className = theme === 'home' ? 'home'
+      : theme === 'voice' ? 'voice'
+      : theme === 'photo' ? 'photo'
+      : 'success-state';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let mediaRecorder, chunks = [], timerInt, secs = 0, isRec = false;
+
+  function toggleRec() {
+    if (!isRec) startRec(); else stopRec();
+  }
+
+  async function startRec() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      chunks = [];
+      mediaRecorder.ondataavailable = e => chunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        const player = document.getElementById('audio-player');
+        player.src = url;
+        document.getElementById('audio-preview').style.display = 'block';
+        document.getElementById('send-voice-btn').disabled = false;
+        stream.getTracks().forEach(t => t.stop());
+      };
+      mediaRecorder.start();
+      isRec = true; secs = 0;
+      document.getElementById('rec-btn').classList.add('recording');
+      document.getElementById('rec-btn').textContent = '⏹';
+      document.getElementById('rec-status').textContent = 'Enregistrement en cours…';
+      timerInt = setInterval(() => {
+        secs++;
+        const m = Math.floor(secs / 60), s = secs % 60;
+        document.getElementById('timer').textContent = m + ':' + String(s).padStart(2, '0');
+      }, 1000);
+    } catch (e) {
+      document.getElementById('rec-status').textContent = 'Accès au microphone refusé';
+    }
+  }
+
+  function stopRec() {
+    mediaRecorder.stop();
+    isRec = false;
+    clearInterval(timerInt);
+    document.getElementById('rec-btn').classList.remove('recording');
+    document.getElementById('rec-btn').textContent = '🎙';
+    document.getElementById('rec-status').textContent = 'Enregistrement terminé';
+    document.getElementById('timer').textContent = '';
+  }
+
+  function handlePhoto(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.getElementById('photo-preview');
+      img.src = e.target.result;
+      img.style.display = 'block';
+      document.getElementById('photo-hint').style.display = 'none';
+      document.getElementById('send-photo-btn').disabled = false;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function sendSuccess() {
+    show('screen-success', 'success');
+  }
+</script>
+</body>
+</html>
