@@ -20,24 +20,29 @@
       --font-display: 'Chaumont Script', Georgia, serif;
       --font-body: 'Author', sans-serif;
 
-      --home-bg: #fbe8df;
-      --home-text: #6E031F;
-      --home-border: rgba(110,3,31,0.2);
+      --home-bg: #fff4e0;
+      --home-text: #C18553;
+      --home-border: #C18553;
       --home-card: rgba(255,255,255,0.2);
       --home-card-hover: rgba(255,255,255,0.35);
 
+      --archive-bg: #fff4e0;
+      --archive-text: #C18553;
+      --archive-border: #C18553;
+      --archive-accent: #C18553;
+
       --voice-bg: #F288B7;
       --voice-text: #6E031F;
-      --voice-border: rgba(110,3,31,0.2);
+      --voice-border: #6E031F;
       --voice-card: rgba(255,255,255,0.25);
 
       --photo-bg: #D4DD75;
       --photo-text: #5158A6;
-      --photo-border: rgba(81,88,166,0.2);
+      --photo-border: #5158A6;
       --photo-card: rgba(255,255,255,0.3);
 
-      --success-bg: #fbe8df;
-      --success-text: #6E031F;
+      --success-bg: #fff4e0;
+      --success-text: #C18553;
 
       --radius: 6px;
       --radius-lg: 12px;
@@ -106,9 +111,7 @@
       font-weight: 400;
     }
 
-    .home-intro {
-      margin-bottom: 1.75rem;
-    }
+    .home-intro { margin-bottom: 1.75rem; }
     .home-intro p {
       font-size: 14px;
       color: var(--home-text);
@@ -156,20 +159,10 @@
       font-size: 20px;
       background: rgba(255,255,255,0.35);
     }
+    .opt-label { font-size: 15px; font-weight: 600; color: var(--home-text); }
+    .opt-desc { font-size: 12px; color: var(--home-text); opacity: 0.7; margin-top: 2px; }
 
-    .opt-label {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--home-text);
-    }
-    .opt-desc {
-      font-size: 12px;
-      color: var(--home-text);
-      opacity: 0.7;
-      margin-top: 2px;
-    }
-
-    /* INNER SCREENS */
+    /* BACK BTN */
     .back-btn {
       background: none;
       border: none;
@@ -204,6 +197,184 @@
       font-weight: 400;
     }
 
+    /* ── ARCHIVE ── */
+    body.archive { background: var(--archive-bg); color: var(--archive-text); }
+    body.archive .back-btn { color: var(--archive-text); }
+    body.archive .screen-title { color: var(--archive-text); }
+    body.archive .screen-sub { color: var(--archive-text); }
+
+    .archive-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .archive-tab {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 50px;
+      border: 0.5px solid var(--archive-border);
+      background: transparent;
+      color: var(--archive-text);
+      cursor: pointer;
+      opacity: 0.55;
+      transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .archive-tab:hover { opacity: 0.85; }
+    .archive-tab.active {
+      opacity: 1;
+      background: var(--archive-text);
+      color: var(--archive-bg);
+      border-color: var(--archive-text);
+    }
+
+    .archive-section { display: none; }
+    .archive-section.active { display: block; }
+
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    /* Generic archive card */
+    .arc-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 0.5px solid var(--archive-border);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      background: white;
+    }
+    .arc-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(44,37,25,0.35);
+      box-shadow: 0 8px 24px rgba(44,37,25,0.1);
+    }
+
+    .arc-thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Lettre */
+    .arc-thumb.lettre {
+      background: #D4DD75;
+    }
+    .lettre-lines {
+      width: 75%;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .lettre-line {
+      height: 1.5px;
+      border-radius: 2px;
+      background: #5158A6;
+      opacity: 0.7;
+    }
+    .lettre-line.short { width: 55%; }
+    .lettre-line.med { width: 80%; }
+    .lettre-salut {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: #5158A6;
+      margin-bottom: 6px;
+    }
+
+    /* Message */
+    .arc-thumb.message {
+      background: #fff0f6;
+    }
+    .msg-bubble {
+      background: #6E031F;
+      border-radius: 14px 14px 14px 3px;
+      padding: 8px 12px;
+      width: 78%;
+    }
+    .msg-bubble-line {
+      height: 2px;
+      border-radius: 2px;
+      background: #F288B7;
+      margin-bottom: 5px;
+    }
+    .msg-bubble-line:last-child { margin-bottom: 0; width: 55%; }
+
+    /* Note vocale */
+    .arc-thumb.vocale {
+      background: #fff0f6;
+    }
+    .wave {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .wave-bar {
+      width: 3px;
+      border-radius: 3px;
+      background: #F288B7;
+      transition: height 0.3s;
+    }
+    .arc-card:hover .wave-bar:nth-child(odd) { height: calc(var(--h) * 1.3) !important; }
+
+    /* Photo */
+    .arc-thumb.photo-thumb {
+      background: #5158A6;
+    }
+    .photo-frame {
+      width: 78%;
+      aspect-ratio: 3/2;
+      border-radius: 4px;
+      background: #5158A6;
+      border: 0.5px solid #5158A6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #5158A6 0%,#5158A6 100%);
+      opacity: 0.5;
+    }
+    .photo-stamp {
+      font-size: 22px;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    .arc-card-footer {
+      padding: 8px 10px 10px;
+      border-top: 0.5px solid var(--archive-border);
+    }
+    .arc-card-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--archive-text);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .arc-card-meta {
+      font-size: 11px;
+      color: var(--archive-text);
+      opacity: 0.5;
+    }
+
     /* VOICE */
     body.voice { background: var(--voice-bg); color: var(--voice-text); }
     body.voice .back-btn { color: var(--voice-text); }
@@ -224,54 +395,27 @@
       min-height: 180px;
       justify-content: center;
     }
-
     .rec-circle {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: var(--voice-text);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      transition: transform 0.15s;
-      flex-shrink: 0;
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--voice-text); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; transition: transform 0.15s; flex-shrink: 0;
     }
     .rec-circle:hover { transform: scale(1.06); }
-    .rec-circle.recording {
-      background: #8b1a1a;
-      animation: breathe 1.2s ease-in-out infinite;
-    }
-    @keyframes breathe {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.09); }
-    }
+    .rec-circle.recording { background: #8b1a1a; animation: breathe 1.2s ease-in-out infinite; }
+    @keyframes breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.09)} }
 
     .rec-label {
-      font-size: 11px;
-      color: var(--voice-text);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 600;
-      opacity: 0.65;
+      font-size: 11px; color: var(--voice-text);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 600; opacity: 0.65;
     }
-
     .rec-timer {
-      font-family: var(--font-display);
-      font-size: 38px;
-      color: var(--voice-text);
-      font-variant-numeric: tabular-nums;
-      min-height: 44px;
-      line-height: 1;
+      font-family: var(--font-display); font-size: 38px;
+      color: var(--voice-text); font-variant-numeric: tabular-nums;
+      min-height: 44px; line-height: 1;
     }
-
-    audio {
-      width: 100%;
-      border-radius: var(--radius);
-      margin-bottom: 1rem;
-    }
+    audio { width: 100%; border-radius: var(--radius); margin-bottom: 1rem; }
 
     /* PHOTO */
     body.photo { background: var(--photo-bg); color: var(--photo-text); }
@@ -284,108 +428,54 @@
       border: 0.5px dashed var(--photo-border);
       border-radius: var(--radius-lg);
       min-height: 240px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 1.25rem;
-      cursor: pointer;
-      overflow: hidden;
-      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; margin-bottom: 1.25rem;
+      cursor: pointer; overflow: hidden; position: relative;
       transition: background 0.2s;
     }
     .photo-zone:hover { background: rgba(255,255,255,0.45); }
-    .photo-zone img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; border-radius: var(--radius-lg); }
-    .photo-hint { text-align: center; font-size: 13px; color: var(--photo-text); z-index: 1; padding: 1.5rem; line-height: 1.7; opacity: 0.8; }
-    .photo-hint .big { font-size: 32px; display: block; margin-bottom: 10px; opacity: 1; }
+    .photo-zone img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; border-radius:var(--radius-lg); }
+    .photo-hint { text-align:center; font-size:13px; color:var(--photo-text); z-index:1; padding:1.5rem; line-height:1.7; opacity:0.8; }
+    .photo-hint .big { font-size:32px; display:block; margin-bottom:10px; }
     input[type=file] { display: none; }
 
-    /* SEND BUTTON */
+    /* SEND */
     .send-btn {
-      width: 100%;
-      border: none;
-      border-radius: var(--radius-lg);
-      padding: 1rem;
-      font-size: 11px;
-      font-family: var(--font-body);
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
+      width: 100%; border: none; border-radius: var(--radius-lg);
+      padding: 1rem; font-size: 11px; font-family: var(--font-body);
+      font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer; transition: opacity 0.2s, transform 0.1s;
     }
     .send-btn:hover:not(:disabled) { opacity: 0.85; transform: translateY(-1px); }
     .send-btn:active:not(:disabled) { transform: translateY(0); }
     .send-btn:disabled { opacity: 0.3; cursor: default; }
-
     body.voice .send-btn { background: var(--voice-text); color: var(--voice-bg); }
     body.photo .send-btn { background: var(--photo-text); color: var(--photo-bg); }
 
     /* SUCCESS */
     body.success-state { background: var(--success-bg); color: var(--success-text); }
-
-    #screen-success {
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 3rem 0;
-    }
+    #screen-success { align-items:center; justify-content:center; text-align:center; padding:3rem 0; }
     .success-mark {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      border: 0.5px solid rgba(110,3,31,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin: 0 auto 1.5rem;
+      width:60px; height:60px; border-radius:50%;
+      background:rgba(255,255,255,0.3); border:0.5px solid rgba(110,3,31,0.2);
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px; margin:0 auto 1.5rem;
     }
-    .success-title {
-      font-family: var(--font-display);
-      font-size: 46px;
-      font-weight: normal;
-      line-height: 1.1;
-      color: var(--success-text);
-      margin-bottom: 0.75rem;
-    }
-    .success-body {
-      font-size: 13px;
-      color: var(--success-text);
-      opacity: 0.75;
-      line-height: 1.8;
-      max-width: 300px;
-      margin: 0 auto 2rem;
-    }
+    .success-title { font-family:var(--font-display); font-size:46px; font-weight:normal; line-height:1.1; color:var(--success-text); margin-bottom:0.75rem; }
+    .success-body { font-size:13px; color:var(--success-text); opacity:0.75; line-height:1.8; max-width:300px; margin:0 auto 2rem; }
     .ghost-btn {
-      background: rgba(255,255,255,0.25);
-      border: 0.5px solid rgba(110,3,31,0.25);
-      border-radius: 50px;
-      padding: 0.7rem 1.75rem;
-      font-size: 11px;
-      font-family: var(--font-body);
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      color: var(--success-text);
-      transition: background 0.2s;
+      background:rgba(255,255,255,0.25); border:0.5px solid rgba(110,3,31,0.25);
+      border-radius:50px; padding:0.7rem 1.75rem; font-size:11px;
+      font-family:var(--font-body); font-weight:600; letter-spacing:0.1em;
+      text-transform:uppercase; cursor:pointer; color:var(--success-text);
+      transition:background 0.2s;
     }
-    .ghost-btn:hover { background: rgba(255,255,255,0.4); }
+    .ghost-btn:hover { background:rgba(255,255,255,0.4); }
 
     /* FOOTER */
-    .site-footer {
-      padding: 1.5rem 0 0;
-      text-align: center;
-      margin-top: auto;
-    }
-    .site-footer p {
-      font-size: 11px;
-      opacity: 0.45;
-      letter-spacing: 0.05em;
-    }
+    .site-footer { padding:1.5rem 0 0; text-align:center; margin-top:auto; }
+    .site-footer p { font-size:11px; opacity:0.45; letter-spacing:0.05em; }
   </style>
 </head>
 <body class="home">
@@ -396,14 +486,23 @@
     <header class="site-header">
       <div class="postmark">Correspondance</div>
       <h1>Laisse une trace</h1>
-      <p class="tagline">À un·e proche, ou à un·e inconnu·e.</p>
+      <p class="tagline">Pour un·e proche, ou pour un·e inconnu·e.</p>
     </header>
 
     <div class="home-intro">
-      <p>Cette carte postale virtuelle t'invite à tisser des liens et correspondre. Choisis la forme que prendra ton message. Il sera conservé et consultable.</p>
+      <p>Viens tisser des liens avec tes proches voire même avec des inconnu·es.</p>
+      <p>Choisis la forme que prendra ton message !
+      Il sera conservé et consultable.</p>
     </div>
 
     <div class="option-list">
+      <button class="option-btn" onclick="show('screen-archive', 'archive')">
+        <div class="opt-icon">🗂</div>
+        <div>
+          <div class="opt-label">Archives</div>
+          <div class="opt-desc">Consulte les traces laissées</div>
+        </div>
+      </button>
       <button class="option-btn" onclick="show('screen-voice', 'voice')">
         <div class="opt-icon">🎙</div>
         <div>
@@ -421,8 +520,289 @@
     </div>
 
     <footer class="site-footer">
-      <p>Laisse une trace — Projet de Correspondance &amp; Mémoire par Eve Randreth</p>
+      <p>Laisse une trace — Projet de Correspondance &amp; de Mémoire par Eve Randreth</p>
     </footer>
+  </div>
+
+  <!-- ARCHIVE -->
+  <div id="screen-archive" class="screen">
+    <div style="padding-top: 2rem;">
+      <button class="back-btn" onclick="show('screen-home', 'home')">← Retour</button>
+      <div class="screen-title">Archives</div>
+      <p class="screen-sub">Toutes les traces laissées par les visiteur·euses</p>
+
+      <div class="archive-tabs">
+        <button class="archive-tab active" onclick="switchTab('lettres')">Lettres</button>
+        <button class="archive-tab" onclick="switchTab('messages')">Messages</button>
+        <button class="archive-tab" onclick="switchTab('vocales')">Notes vocales</button>
+        <button class="archive-tab" onclick="switchTab('photos')">Photos</button>
+      </div>
+
+      <!-- LETTRES -->
+      <div class="archive-section active" id="tab-lettres">
+        <div class="archive-grid">
+          <div class="arc-card">
+            <div class="arc-thumb lettre">
+              <div class="lettre-lines">
+                <div class="lettre-salut">Mamie,</div>
+                <div class="lettre-line med"></div>
+                <div class="lettre-line"></div>
+                <div class="lettre-line short"></div>
+                <div class="lettre-line med"></div>
+                <div class="lettre-line short"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Joyeux anniversaire Mamie</div>
+              <div class="arc-card-meta">12 mars 2026</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb lettre">
+              <div class="lettre-lines">
+                <div class="lettre-salut">Coucou de nous !</div>
+                <div class="lettre-line"></div>
+                <div class="lettre-line med"></div>
+                <div class="lettre-line short"></div>
+                <div class="lettre-line"></div>
+                <div class="lettre-line med"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Aux copains du sud</div>
+              <div class="arc-card-meta">14 mars 2026</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb lettre">
+              <div class="lettre-lines">
+                <div class="lettre-salut">À cette belle rencontre,</div>
+                <div class="lettre-line short"></div>
+                <div class="lettre-line med"></div>
+                <div class="lettre-line"></div>
+                <div class="lettre-line short"></div>
+                <div class="lettre-line med"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Déclaration anonyme</div>
+              <div class="arc-card-meta">18 mars 2026</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb lettre">
+              <div class="lettre-lines">
+                <div class="lettre-salut">Courage</div>
+                <div class="lettre-line med"></div>
+                <div class="lettre-line short"></div>
+                <div class="lettre-line"></div>
+                <div class="lettre-line med"></div>
+                <div class="lettre-line short"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Si tu te sens seul·e</div>
+              <div class="arc-card-meta">21 mars 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="archive-section" id="tab-messages">
+        <div class="archive-grid">
+          <div class="arc-card">
+            <div class="arc-thumb message">
+              <div class="msg-bubble">
+                <div class="msg-bubble-line"></div>
+                <div class="msg-bubble-line"></div>
+                <div class="msg-bubble-line"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Message #1</div>
+              <div class="arc-card-meta">10 mars 2026</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb message">
+              <div class="msg-bubble">
+                <div class="msg-bubble-line"></div>
+                <div class="msg-bubble-line"></div>
+                <div class="msg-bubble-line" style="width:40%"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Message #2</div>
+              <div class="arc-card-meta">13 mars 2026</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb message">
+              <div class="msg-bubble">
+                <div class="msg-bubble-line" style="width:60%"></div>
+                <div class="msg-bubble-line"></div>
+                <div class="msg-bubble-line"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Message #3</div>
+              <div class="arc-card-meta">17 mars 2026</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb message">
+              <div class="msg-bubble">
+                <div class="msg-bubble-line"></div>
+                <div class="msg-bubble-line" style="width:70%"></div>
+                <div class="msg-bubble-line" style="width:30%"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Message #4</div>
+              <div class="arc-card-meta">20 mars 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTES VOCALES -->
+      <div class="archive-section" id="tab-vocales">
+        <div class="archive-grid">
+          <div class="arc-card">
+            <div class="arc-thumb vocale">
+              <div class="wave" id="wave1">
+                <div class="wave-bar" style="--h:10px; height:10px"></div>
+                <div class="wave-bar" style="--h:22px; height:22px"></div>
+                <div class="wave-bar" style="--h:36px; height:36px"></div>
+                <div class="wave-bar" style="--h:18px; height:18px"></div>
+                <div class="wave-bar" style="--h:42px; height:42px"></div>
+                <div class="wave-bar" style="--h:28px; height:28px"></div>
+                <div class="wave-bar" style="--h:14px; height:14px"></div>
+                <div class="wave-bar" style="--h:38px; height:38px"></div>
+                <div class="wave-bar" style="--h:20px; height:20px"></div>
+                <div class="wave-bar" style="--h:30px; height:30px"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Voix de Camille</div>
+              <div class="arc-card-meta">0:42 · 11 mars 2025</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb vocale">
+              <div class="wave">
+                <div class="wave-bar" style="--h:26px; height:26px"></div>
+                <div class="wave-bar" style="--h:14px; height:14px"></div>
+                <div class="wave-bar" style="--h:40px; height:40px"></div>
+                <div class="wave-bar" style="--h:32px; height:32px"></div>
+                <div class="wave-bar" style="--h:16px; height:16px"></div>
+                <div class="wave-bar" style="--h:44px; height:44px"></div>
+                <div class="wave-bar" style="--h:22px; height:22px"></div>
+                <div class="wave-bar" style="--h:10px; height:10px"></div>
+                <div class="wave-bar" style="--h:36px; height:36px"></div>
+                <div class="wave-bar" style="--h:18px; height:18px"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Anonyme</div>
+              <div class="arc-card-meta">1:08 · 15 mars 2025</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb vocale">
+              <div class="wave">
+                <div class="wave-bar" style="--h:18px; height:18px"></div>
+                <div class="wave-bar" style="--h:34px; height:34px"></div>
+                <div class="wave-bar" style="--h:12px; height:12px"></div>
+                <div class="wave-bar" style="--h:46px; height:46px"></div>
+                <div class="wave-bar" style="--h:24px; height:24px"></div>
+                <div class="wave-bar" style="--h:38px; height:38px"></div>
+                <div class="wave-bar" style="--h:16px; height:16px"></div>
+                <div class="wave-bar" style="--h:28px; height:28px"></div>
+                <div class="wave-bar" style="--h:42px; height:42px"></div>
+                <div class="wave-bar" style="--h:20px; height:20px"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Voix de Théo</div>
+              <div class="arc-card-meta">0:23 · 19 mars 2025</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb vocale">
+              <div class="wave">
+                <div class="wave-bar" style="--h:30px; height:30px"></div>
+                <div class="wave-bar" style="--h:44px; height:44px"></div>
+                <div class="wave-bar" style="--h:20px; height:20px"></div>
+                <div class="wave-bar" style="--h:12px; height:12px"></div>
+                <div class="wave-bar" style="--h:36px; height:36px"></div>
+                <div class="wave-bar" style="--h:26px; height:26px"></div>
+                <div class="wave-bar" style="--h:48px; height:48px"></div>
+                <div class="wave-bar" style="--h:14px; height:14px"></div>
+                <div class="wave-bar" style="--h:32px; height:32px"></div>
+                <div class="wave-bar" style="--h:22px; height:22px"></div>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Anonyme</div>
+              <div class="arc-card-meta">2:14 · 22 mars 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHOTOS -->
+      <div class="archive-section" id="tab-photos">
+        <div class="archive-grid">
+          <div class="arc-card">
+            <div class="arc-thumb photo-thumb">
+              <div class="photo-frame">
+                <span class="photo-stamp">🌸</span>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Carte de Léa</div>
+              <div class="arc-card-meta">12 mars 2025</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb photo-thumb">
+              <div class="photo-frame">
+                <span class="photo-stamp">🌿</span>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Dessin anonyme</div>
+              <div class="arc-card-meta">15 mars 2025</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb photo-thumb">
+              <div class="photo-frame">
+                <span class="photo-stamp">🌿</span>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Carte manuscrite</div>
+              <div class="arc-card-meta">18 mars 2025</div>
+            </div>
+          </div>
+          <div class="arc-card">
+            <div class="arc-thumb photo-thumb">
+              <div class="photo-frame">
+                <span class="photo-stamp">🌸</span>
+              </div>
+            </div>
+            <div class="arc-card-footer">
+              <div class="arc-card-name">Carte illustrée</div>
+              <div class="arc-card-meta">23 mars 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- VOICE -->
@@ -448,7 +828,7 @@
     <div style="padding-top: 2rem;">
       <button class="back-btn" onclick="show('screen-home', 'home')">← Retour</button>
       <div class="screen-title">Ta carte manuscrite</div>
-      <p class="screen-sub">Prends une photo de ta carte pour la numériser et l'intégrer à l'installation.</p>
+      <p class="screen-sub">Prends une photo de ta carte pour la numériser et la partager en ligne.</p>
       <div class="photo-zone" onclick="document.getElementById('file-input').click()">
         <div class="photo-hint" id="photo-hint">
           <span class="big">📷</span>
@@ -478,15 +858,21 @@
     document.body.className = theme === 'home' ? 'home'
       : theme === 'voice' ? 'voice'
       : theme === 'photo' ? 'photo'
+      : theme === 'archive' ? 'archive'
       : 'success-state';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  function switchTab(name) {
+    document.querySelectorAll('.archive-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.archive-section').forEach(s => s.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+
   let mediaRecorder, chunks = [], timerInt, secs = 0, isRec = false;
 
-  function toggleRec() {
-    if (!isRec) startRec(); else stopRec();
-  }
+  function toggleRec() { if (!isRec) startRec(); else stopRec(); }
 
   async function startRec() {
     try {
@@ -497,8 +883,7 @@
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'audio/webm' });
         const url = URL.createObjectURL(blob);
-        const player = document.getElementById('audio-player');
-        player.src = url;
+        document.getElementById('audio-player').src = url;
         document.getElementById('audio-preview').style.display = 'block';
         document.getElementById('send-voice-btn').disabled = false;
         stream.getTracks().forEach(t => t.stop());
@@ -519,9 +904,7 @@
   }
 
   function stopRec() {
-    mediaRecorder.stop();
-    isRec = false;
-    clearInterval(timerInt);
+    mediaRecorder.stop(); isRec = false; clearInterval(timerInt);
     document.getElementById('rec-btn').classList.remove('recording');
     document.getElementById('rec-btn').textContent = '🎙';
     document.getElementById('rec-status').textContent = 'Enregistrement terminé';
@@ -529,22 +912,18 @@
   }
 
   function handlePhoto(input) {
-    const file = input.files[0];
-    if (!file) return;
+    const file = input.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = e => {
       const img = document.getElementById('photo-preview');
-      img.src = e.target.result;
-      img.style.display = 'block';
+      img.src = e.target.result; img.style.display = 'block';
       document.getElementById('photo-hint').style.display = 'none';
       document.getElementById('send-photo-btn').disabled = false;
     };
     reader.readAsDataURL(file);
   }
 
-  function sendSuccess() {
-    show('screen-success', 'success');
-  }
+  function sendSuccess() { show('screen-success', 'success'); }
 </script>
 </body>
 </html>
